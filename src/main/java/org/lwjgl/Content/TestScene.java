@@ -2,6 +2,8 @@ package org.lwjgl.Content;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Graphics.Assets.Shader;
+import org.lwjgl.Graphics.Objects.AObject;
+import org.lwjgl.Graphics.Objects.Triangle;
 import org.lwjgl.Graphics.Scene;
 
 import java.nio.FloatBuffer;
@@ -22,18 +24,41 @@ public class TestScene extends Scene {
             0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, //Top right     2
     };
 
-    private int[] elementArray = {0, 1, 2};
+    private int[] elementArray;
 
     private int vaoID, vboID, eboID;
 
     public TestScene(){
 
     }
-
+    int[] sigma;
     @Override
     public void init() {
         shader = new Shader("assets/shaders/default.glsl");
         shader.compile();
+
+        AObject tri = new Triangle(
+                0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
+                -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
+                0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f
+                );
+
+
+
+        AObject tri2 = new Triangle(
+                1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+        );
+
+        vertexArray = new float[42];
+        elementArray = new int[6];
+        int vertexPointer = 0;
+        int elementPointer = 0;
+        sigma = tri.loadObj(vertexArray, elementArray, vertexPointer, elementPointer);
+        vertexPointer += sigma[0];
+        elementPointer += sigma[1];
+        sigma = tri2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer);
+        vertexPointer += sigma[0];
+        elementPointer += sigma[1];
 
 
 
