@@ -1,12 +1,17 @@
 package org.lwjgl;
 
+import org.joml.Vector2f;
 import org.lwjgl.Content.TestScene;
+import org.lwjgl.Graphics.Camera;
 import org.lwjgl.Graphics.Scene;
 import org.lwjgl.Input.Keyboard;
 import org.lwjgl.Input.Mouse;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -68,6 +73,10 @@ public class Window {
         currentScene.init();
     }
 
+    public static Scene getScene(){
+        return currentScene;
+    }
+
     public void run(){
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
@@ -109,7 +118,6 @@ public class Window {
         glfwSetKeyCallback(glfwWindow, Keyboard::keyCallback);
 
 
-        //make opengl context current
         glfwMakeContextCurrent(glfwWindow);
         //vsync jumpscare
         glfwSwapInterval(1);
@@ -121,7 +129,7 @@ public class Window {
         Scene testScene = new TestScene();
         changeScene(testScene);
     }
-    float dt = 0;
+    long dt = 0;
     public void loop(){
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
@@ -131,13 +139,17 @@ public class Window {
                 dtBuffer -= dt;
                 dtBufferCount++;
             }
-            dt = System.nanoTime();
+            dt = System.currentTimeMillis();
 
 
 
             //Do things here
 
-
+            //glViewport(0, 0, 1920, 1080); //really bad but temporary solution
+            IntBuffer w = BufferUtils.createIntBuffer(1);
+            IntBuffer h = BufferUtils.createIntBuffer(1);
+            glfwGetWindowSize(glfwWindow, w, h);
+            glViewport(0, 0, w.get(0), h.get(0)); //this is also temporary and really bad. one of these days I will make this only be called on window resize and that day will be great
             if(dt > 0){
                 currentScene.update(dt);
             }
@@ -148,9 +160,9 @@ public class Window {
 
 
 
-            dt = System.nanoTime() - dt;
+            dt = System.currentTimeMillis() - dt;
             dtBuffer += dt; dtBufferCount--;
-            setTitle(String.valueOf(dtBuffer / 64));
+            setTitle(String.valueOf(1000/Math.max(1, (dtBuffer/64)) + "FPS"));
             glfwSwapBuffers(glfwWindow);
         }
     }
