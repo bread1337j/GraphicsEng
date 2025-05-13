@@ -149,7 +149,7 @@ public class Window {
             IntBuffer w = BufferUtils.createIntBuffer(1);
             IntBuffer h = BufferUtils.createIntBuffer(1);
             glfwGetWindowSize(glfwWindow, w, h);
-            glViewport(0, 0, w.get(0), h.get(0)); //this is also temporary and really bad. one of these days I will make this only be called on window resize and that day will be great
+            glViewport((int) Window.getScene().camera().position.x, (int) Window.getScene().camera().position.y, w.get(0), h.get(0)); //this is also temporary and really bad. one of these days I will make this only be called on window resize and that day will be great
             if(dt > 0){
                 currentScene.update(dt);
             }

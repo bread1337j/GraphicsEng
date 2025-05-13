@@ -58,7 +58,7 @@ public class TestScene extends Scene {
                 -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
                 );
 
-        AObject rect2 = new Rect(0.0f, 0.0f, 1.0f, 10.0f, 10.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+        AObject rect2 = new Rect(-5.0f, 0.0f, 1.0f, 15.0f, 10.0f, 0.0f, 1.0f, 0.0f, 0.0f);
         AObject tri2 = new Triangle(
                 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
         );
@@ -131,7 +131,7 @@ public class TestScene extends Scene {
         glBindVertexArray(vaoID);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        //camera.position.add(new Vector2f(0.01f, 0.0f * dt));
+        camera.position.add(new Vector2f(0.01f, 0.0f * dt));
         camera.adjustProjection();
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
