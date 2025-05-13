@@ -3,11 +3,13 @@ package org.lwjgl.Content;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Graphics.Assets.Shader;
 import org.lwjgl.Graphics.Objects.AObject;
+import org.lwjgl.Graphics.Objects.Rect;
 import org.lwjgl.Graphics.Objects.Triangle;
 import org.lwjgl.Graphics.Scene;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
@@ -43,23 +45,41 @@ public class TestScene extends Scene {
                 0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f
                 );
 
+        AObject rect = new Rect(
+                -0.5f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
+                -1.5f, -0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
+                -0.5f, -0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f,
+                -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
+                );
 
-
+        AObject rect2 = new Rect(0.0f, 0.0f, 1.0f, 7.5f, 7.5f, 0.0f, 1.0f, 0.0f, 0.0f);
         AObject tri2 = new Triangle(
-                1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+                0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
         );
 
-        vertexArray = new float[42];
-        elementArray = new int[6];
+        vertexArray = new float[tri.getVertexLen() * 2 + rect.getVertexLen() * 2];
+        elementArray = new int[tri.getIndiceLen() * 2 + rect.getIndiceLen() * 2];
         int vertexPointer = 0;
         int elementPointer = 0;
-        sigma = tri.loadObj(vertexArray, elementArray, vertexPointer, elementPointer);
-        vertexPointer += sigma[0];
-        elementPointer += sigma[1];
-        sigma = tri2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer);
-        vertexPointer += sigma[0];
-        elementPointer += sigma[1];
-
+        int indice = 0;
+        sigma = tri.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
+        vertexPointer = sigma[0];
+        elementPointer = sigma[1];
+        indice = sigma[2];
+        sigma = tri2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
+        vertexPointer = sigma[0];
+        elementPointer = sigma[1];
+        indice = sigma[2];
+        sigma = rect.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
+        vertexPointer = sigma[0];
+        elementPointer = sigma[1];
+        indice = sigma[2];
+        sigma = rect2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
+        System.out.println(Arrays.toString(sigma));
+        System.out.println(Arrays.toString(elementArray));
+        vertexPointer = sigma[0];
+        elementPointer = sigma[1];
+        indice = sigma[2];
 
 
         vaoID = glGenVertexArrays();
