@@ -18,7 +18,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Window {
+public class Window { //italy final boss
     private int width, height;
     private String title;
     private long glfwWindow; //memory address number to the window
@@ -146,10 +146,10 @@ public class Window {
             //Do things here
 
             //glViewport(0, 0, 1920, 1080); //really bad but temporary solution
-            IntBuffer w = BufferUtils.createIntBuffer(1);
-            IntBuffer h = BufferUtils.createIntBuffer(1);
-            glfwGetWindowSize(glfwWindow, w, h);
-            glViewport((int) Window.getScene().camera().position.x, (int) Window.getScene().camera().position.y, w.get(0), h.get(0)); //this is also temporary and really bad. one of these days I will make this only be called on window resize and that day will be great
+            //IntBuffer w = BufferUtils.createIntBuffer(1);
+            //IntBuffer h = BufferUtils.createIntBuffer(1);
+            //glfwGetWindowSize(glfwWindow, w, h);
+            //glViewport((int) Window.getScene().camera().position.x, (int) Window.getScene().camera().position.y, w.get(0), h.get(0)); //this is also temporary and really bad. one of these days I will make this only be called on window resize and that day will be great
             if(dt > 0){
                 currentScene.update(dt);
             }
@@ -162,7 +162,7 @@ public class Window {
 
             dt = System.currentTimeMillis() - dt;
             dtBuffer += dt; dtBufferCount--;
-            setTitle(String.valueOf(1000/Math.max(1, (dtBuffer/64)) + "FPS"));
+            setTitle(String.valueOf(((double)(dtBuffer / 64) / 1_000)+ "SPF"));
             glfwSwapBuffers(glfwWindow);
         }
     }

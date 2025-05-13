@@ -21,17 +21,28 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 public class TestScene extends Scene {
     private Shader shader;
 
-    private int vertexID, fragmentID;
-    private float[] vertexArray = {
-            //position              //color
-            0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, //Bottom right  0
-            -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, //Top left      1
-            0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, //Top right     2
-    };
-
-    private int[] elementArray;
 
     private int vaoID, vboID, eboID;
+
+
+    AObject tri = new Triangle(
+            0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
+            -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
+            0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f
+    );
+
+    AObject rect = new Rect(
+            -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
+            -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
+            -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f,
+            -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
+    );
+
+    AObject rect2 = new Rect(-5.0f, 0.0f, 1.0f, 15.0f, 10.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+    AObject tri2 = new Triangle(
+            0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+    );
+
 
     public TestScene(){
 
@@ -45,47 +56,9 @@ public class TestScene extends Scene {
         shader = new Shader("assets/shaders/default.glsl");
         shader.compile();
 
-        AObject tri = new Triangle(
-                0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
-                -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
-                0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f
-                );
 
-        AObject rect = new Rect(
-                -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
-                -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
-                -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f,
-                -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
-                );
-
-        AObject rect2 = new Rect(-5.0f, 0.0f, 1.0f, 15.0f, 10.0f, 0.0f, 1.0f, 0.0f, 0.0f);
-        AObject tri2 = new Triangle(
-                0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
-        );
-
-        vertexArray = new float[tri.getVertexLen() * 2 + rect.getVertexLen() * 2];
-        elementArray = new int[tri.getIndiceLen() * 2 + rect.getIndiceLen() * 2];
-        int vertexPointer = 0;
-        int elementPointer = 0;
-        int indice = 0;
-        sigma = tri.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
-        vertexPointer = sigma[0];
-        elementPointer = sigma[1];
-        indice = sigma[2];
-        sigma = tri2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
-        vertexPointer = sigma[0];
-        elementPointer = sigma[1];
-        indice = sigma[2];
-        sigma = rect.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
-        vertexPointer = sigma[0];
-        elementPointer = sigma[1];
-        indice = sigma[2];
-        sigma = rect2.loadObj(vertexArray, elementArray, vertexPointer, elementPointer, indice);
-        System.out.println(Arrays.toString(sigma));
-        System.out.println(Arrays.toString(elementArray));
-        vertexPointer = sigma[0];
-        elementPointer = sigma[1];
-        indice = sigma[2];
+        objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
+        fillArrays();
 
 
         vaoID = glGenVertexArrays();
@@ -98,8 +71,8 @@ public class TestScene extends Scene {
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
 
-        IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
-        elementBuffer.put(elementArray).flip();
+        IntBuffer elementBuffer = BufferUtils.createIntBuffer(indicesArray.length);
+        elementBuffer.put(indicesArray).flip();
 
         eboID = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
@@ -122,7 +95,7 @@ public class TestScene extends Scene {
     @Override
     public void update(float dt){
 
-
+        fillArrays();
         //this.camera().position.add(new Vector2f(-0.0001f * dt, 0.0f * dt));
 
         shader.use();
@@ -133,7 +106,7 @@ public class TestScene extends Scene {
         glEnableVertexAttribArray(1);
         camera.position.add(new Vector2f(0.01f, 0.0f * dt));
         camera.adjustProjection();
-        glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indicesArray.length, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);

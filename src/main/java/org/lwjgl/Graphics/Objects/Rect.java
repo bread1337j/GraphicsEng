@@ -24,8 +24,8 @@ public class Rect extends AObject {
 
     @Override
     public int[] loadObj(float[] vertexArr, int[] elementArr, int pointer, int eboPointer, int indice) {
-        System.out.println("Starting at: " + pointer);
-        System.out.println("Expecting to end at: " + (pointer + vertices.length));
+        //System.out.println("Starting at: " + pointer);
+        //System.out.println("Expecting to end at: " + (pointer + vertices.length));
         for(int i=pointer; i<pointer+vertices.length; i++){
             vertexArr[i] = vertices[i-pointer];
         }
