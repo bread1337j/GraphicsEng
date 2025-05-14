@@ -139,13 +139,14 @@ public class Window { //italy final boss
                 dtBuffer -= dt;
                 dtBufferCount++;
             }
-            dt = System.currentTimeMillis();
+            dt = System.nanoTime();
 
 
 
             //Do things here
 
-            //glViewport(0, 0, 1920, 1080); //really bad but temporary solution
+            //glViewport(0, 0, 800, 600); //really bad but temporary solution
+            //System.out.println(Window.getScene().camera().position);
             //IntBuffer w = BufferUtils.createIntBuffer(1);
             //IntBuffer h = BufferUtils.createIntBuffer(1);
             //glfwGetWindowSize(glfwWindow, w, h);
@@ -160,9 +161,9 @@ public class Window { //italy final boss
 
 
 
-            dt = System.currentTimeMillis() - dt;
+            dt = System.nanoTime() - dt;
             dtBuffer += dt; dtBufferCount--;
-            setTitle(String.valueOf(((double)(dtBuffer / 64) / 1_000)+ "SPF"));
+            setTitle(String.valueOf((1.0d / ((double)(dtBuffer / 64) / 1_000_000_000))+ "FPS"));
             glfwSwapBuffers(glfwWindow);
         }
     }

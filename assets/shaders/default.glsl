@@ -5,15 +5,22 @@
 
 layout (location=0) in vec3 aPos;
 layout (location=1) in vec4 aColor;
+layout (location=2) in vec2 aCenter;
+layout (location=3) in int aType;
 
 uniform mat4 uProjection;
 uniform mat4 uView;
 
 out vec4 fColor;
+out vec2 fCenter;
+out int fType;
+
 
 void main(){
     fColor = aColor;
-    gl_Position =  uView * uProjection * vec4(aPos, 1.0);
+    fCenter = aCenter;
+    fType = aType;
+    gl_Position =  uProjection * uView * vec4(aPos, 1.0);
 }
 
 #type fragment
