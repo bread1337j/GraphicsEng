@@ -126,6 +126,9 @@ public class Window { //italy final boss
         glfwShowWindow(glfwWindow);
         //bindings. very important.
         GL.createCapabilities();
+        glViewport(0, 0, 800, 800);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         Scene testScene = new TestScene();
         changeScene(testScene);
     }

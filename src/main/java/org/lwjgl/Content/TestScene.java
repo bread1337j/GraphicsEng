@@ -5,6 +5,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.Graphics.Assets.Shader;
 import org.lwjgl.Graphics.Camera;
 import org.lwjgl.Graphics.Objects.AObject;
+import org.lwjgl.Graphics.Objects.Circle;
 import org.lwjgl.Graphics.Objects.Rect;
 import org.lwjgl.Graphics.Objects.Triangle;
 import org.lwjgl.Graphics.Scene;
@@ -40,7 +41,7 @@ public class TestScene extends Scene {
             -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
     );
 
-    AObject rect2 = new Rect(-5.0f, 0.0f, 1.0f, 150.0f, 10.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+    AObject rect2 = new Circle(0.0f, 0.0f, 1.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f);
     AObject tri2 = new Triangle(
             0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
     );
@@ -89,15 +90,13 @@ public class TestScene extends Scene {
 
 
         if(Keyboard.isKeyPressed(GLFW_KEY_W)){
-            camera.position.add(new Vector2f(0.0f, 0.01f));
-        } else if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
-            camera.position.add(new Vector2f(-0.01f, 0.0f));
-        } else if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
             camera.position.add(new Vector2f(0.0f, -0.01f));
-        } else if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
+        } if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
             camera.position.add(new Vector2f(0.01f, 0.0f));
-        } else if (Keyboard.isKeyPressed(GLFW_KEY_SPACE)) {
-            //System.out.println("e");
+        } if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
+            camera.position.add(new Vector2f(0.0f, 0.01f));
+        } if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
+            camera.position.add(new Vector2f(-0.01f, 0.0f));
         }
 
 

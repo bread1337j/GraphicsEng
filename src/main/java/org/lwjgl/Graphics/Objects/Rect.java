@@ -7,10 +7,10 @@ public class Rect extends AObject {
                     float x3, float y3, float z3, float r3, float g3, float b3, float a3,
                     float x4, float y4, float z4, float r4, float g4, float b4, float a4) {
         this.vertices = new float[]{
-                x1, y1, z1, r1, g1, b1, a1, x1, y1, 0,
-                x2, y2, z2, r2, g2, b2, a2, x2, y2, 0,
-                x3, y3, z3, r3, g3, b3, a3, x3, y3, 0,
-                x4, y4, z4, r4, g4, b4, a4, x4, y4, 0 //will have to be rendering a lot of circles to compensate for this chicanery
+                x1, y1, z1, r1, g1, b1, a1, x1, y1, 0, 0,
+                x2, y2, z2, r2, g2, b2, a2, x2, y2, 0, 0,
+                x3, y3, z3, r3, g3, b3, a3, x3, y3, 0, 0,
+                x4, y4, z4, r4, g4, b4, a4, x4, y4, 0, 0 //will have to be rendering a lot of circles to compensate for this chicanery
         };
     }
 
@@ -41,7 +41,7 @@ public class Rect extends AObject {
 
     @Override
     public int getVertexLen() {
-        return 40;
+        return 44;
     }
 
     @Override

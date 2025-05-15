@@ -25,9 +25,10 @@ public abstract class Scene {
     public final int positionsSize = 3;
     public final int colorsSize = 4;
     public final int centerSize = 2;
+    public final int radiusSize = 1;
     public final int typeSize = 1;
     public final int floatSizeBytes = Float.SIZE / 8;
-    public final int vertexSizeBytes = (positionsSize + colorsSize + centerSize + typeSize) * floatSizeBytes;
+    public final int vertexSizeBytes = (positionsSize + colorsSize + centerSize + typeSize + radiusSize) * floatSizeBytes;
 
     public ArrayList<AObject> objects = new ArrayList<>();
     protected float[] vertexArray;
@@ -94,8 +95,11 @@ public abstract class Scene {
         glVertexAttribPointer(2, centerSize, GL_FLOAT, false, vertexSizeBytes, (colorsSize+positionsSize) * floatSizeBytes);
         glEnableVertexAttribArray(2);
 
-        glVertexAttribPointer(3, colorsSize, GL_FLOAT, false, vertexSizeBytes, (centerSize+colorsSize+positionsSize) * floatSizeBytes);
+        glVertexAttribPointer(3, radiusSize, GL_FLOAT, false, vertexSizeBytes, (centerSize+colorsSize+positionsSize) * floatSizeBytes);
         glEnableVertexAttribArray(3);
+
+        glVertexAttribPointer(4, typeSize, GL_FLOAT, false, vertexSizeBytes, (radiusSize+centerSize+colorsSize+positionsSize) * floatSizeBytes);
+        glEnableVertexAttribArray(4);
     }
     public abstract void update(float dt);
 
