@@ -3,6 +3,7 @@ package org.lwjgl.Content;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Graphics.Assets.Shader;
+import org.lwjgl.Graphics.Assets.Texture;
 import org.lwjgl.Graphics.Camera;
 import org.lwjgl.Graphics.Objects.AObject;
 import org.lwjgl.Graphics.Objects.Circle;
@@ -23,30 +24,30 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class TestScene extends Scene {
-    private Shader shader;
 
 
 
 
     AObject tri = new Triangle(
-            0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
-            -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
-            0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f
+            0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
+            -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
+            0.5f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0
     );
 
-    AObject rect = new Rect(
-            -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,
-            -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,
-            -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f,
-            -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f
+    AObject rect = new Circle(
+            -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
+            -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
+            -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0,
+            -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0,
+            0.1f, -0.75f, -0.75f
     );
 
-    AObject rect2 = new Circle(0.0f, 0.0f, 1.0f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f);
+    AObject rect2 = new Circle(0.0f, 0.0f, 1.0f, 0.5f, 1.0f, 1.0f, 0.0f, 0.0f, -0.5f, -0.5f, 1);
     AObject tri2 = new Triangle(
-            0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+            0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.5f, 1
     );
 
-
+    Texture tx;
 
 
 
@@ -59,26 +60,29 @@ public class TestScene extends Scene {
         super.init();
         //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         this.camera = new Camera(new Vector2f(0, 0));
-
         shader = new Shader("assets/shaders/default.glsl");
         shader.compile();
 
-
-        objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
+        tx = new Texture("assets/textures/Test.png");
+        bindTexture(0, tx);
+        //bindTexture(1, tx);
+        //objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
+        objects.add(tri); objects.add(tri2); objects.add(rect2); objects.add(rect);
         fillArrays();
         uploadArrays();
 
 
 
 
-        System.out.println(Window.getScene().camera().getProjectionMatrix());
-        System.out.println(Window.getScene().camera().getViewMatrix());
+        //System.out.println(Window.getScene().camera().getProjectionMatrix());
+        //System.out.println(Window.getScene().camera().getViewMatrix());
     }
 
     @Override
     public void update(float dt){
-
+        bindTexture(0, tx);
         fillArrays();
+        uploadArrays();
         //this.camera().position.add(new Vector2f(-0.0001f * dt, 0.0f * dt));
 
         shader.use();
@@ -112,6 +116,8 @@ public class TestScene extends Scene {
         glBindVertexArray(0);
         shader.detach();
     }
+
+
 
 
 }
