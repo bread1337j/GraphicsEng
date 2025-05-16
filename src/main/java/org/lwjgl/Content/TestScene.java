@@ -35,20 +35,20 @@ public class TestScene extends Scene {
     );
 
     AObject rect = new Circle(
-            -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
-            -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0,
-            -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0,
-            -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0,
+            -0.0f, -1.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 2,
+            -1.5f, -0.0f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.5f, 2,
+            -0.0f, -0.0f, 0.0f,       0.0f, 0.0f, 1.0f, 1.0f, 0.5f, 0.5f, 2,
+            -1.5f, -1.5f, 0.0f,     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2,
             0.1f, -0.75f, -0.75f
     );
 
     AObject rect2 = new Circle(0.0f, 0.0f, 1.0f, 0.5f, 1.0f, 1.0f, 0.0f, 0.0f, -0.5f, -0.5f, 1);
     AObject tri2 = new Triangle(
-            0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.5f, 1
+            0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1
     );
 
     Texture tx;
-
+    Texture tx2;
 
 
     public TestScene(){
@@ -64,7 +64,9 @@ public class TestScene extends Scene {
         shader.compile();
 
         tx = new Texture("assets/textures/Test.png");
+        tx2 = new Texture("assets/textures/Test2.png");
         bindTexture(0, tx);
+        bindTexture(1, tx2);
         //bindTexture(1, tx);
         //objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
         objects.add(tri); objects.add(tri2); objects.add(rect2); objects.add(rect);
@@ -94,13 +96,13 @@ public class TestScene extends Scene {
 
 
         if(Keyboard.isKeyPressed(GLFW_KEY_W)){
-            camera.position.add(new Vector2f(0.0f, -0.01f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
-            camera.position.add(new Vector2f(0.01f, 0.0f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
             camera.position.add(new Vector2f(0.0f, 0.01f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
+        } if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
             camera.position.add(new Vector2f(-0.01f, 0.0f));
+        } if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
+            camera.position.add(new Vector2f(0.0f, -0.01f));
+        } if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
+            camera.position.add(new Vector2f(0.01f, 0.0f));
         }
 
 
@@ -115,6 +117,12 @@ public class TestScene extends Scene {
 
         glBindVertexArray(0);
         shader.detach();
+        for (int i = 0; i < textures.length; i++) {
+            if (textures[i] != null) {
+                textures[i].unbind(); //atp this is just magic TBH
+                //System.out.println("aa");
+            }
+        }
     }
 
 

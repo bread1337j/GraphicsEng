@@ -24,8 +24,8 @@ public class Window { //italy final boss
     private long glfwWindow; //memory address number to the window
     private float r, g, b, a;
     private boolean fadeToBlack = false;
-    int dtBufferCount = 64;
-    int dtBuffer = 0;
+    long[] dtBuffer = new long[64];
+    int dtPointer = 0;
     private static Window window = null;
     private static Scene currentScene = null;
     private Window(){
@@ -133,15 +133,12 @@ public class Window { //italy final boss
         changeScene(testScene);
     }
     long dt = 0;
+    long dtSum;
     public void loop(){
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
-            if(dtBufferCount < 0){
-                dtBuffer -= dt;
-                dtBufferCount++;
-            }
             dt = System.nanoTime();
 
 
@@ -165,8 +162,13 @@ public class Window { //italy final boss
 
 
             dt = System.nanoTime() - dt;
-            dtBuffer += dt; dtBufferCount--;
-            setTitle(String.valueOf((1.0d / ((double)(dtBuffer / 64) / 1_000_000_000))+ "FPS"));
+            dtBuffer[dtPointer++] = dt;
+            dtPointer %= dtBuffer.length;
+            dtSum = 0;
+            for(int i=0; i<dtBuffer.length; i++){
+                dtSum += dtBuffer[i];
+            }
+            setTitle(String.valueOf((1.0d / ((double)(dtSum / 64) / 1_000_000_000))+ "FPS"));
             glfwSwapBuffers(glfwWindow);
         }
     }

@@ -73,8 +73,6 @@ void main(){
         pow(fPos.x - fCenter.x, 2) + pow(fPos.y - fCenter.y, 2) < fRadius+0.001? 0.5 : 0
         );//this sucks but I cant make it not suck because im too stupid
         //color = vec4(0, 0, 0, 1.0);
-    } else {
-        color = fColor;
     }
 
 }

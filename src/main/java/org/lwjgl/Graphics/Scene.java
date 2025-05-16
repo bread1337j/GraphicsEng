@@ -43,8 +43,8 @@ public abstract class Scene {
     protected float[] vertexArray;
     protected int[] indicesArray;
 
-    private Texture[] textures;
-    private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+    protected Texture[] textures;
+    protected int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
 
     public void fillArrays(){
         int vertexLen = 0; int indiceLen = 0;
