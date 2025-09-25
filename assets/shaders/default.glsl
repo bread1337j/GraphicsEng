@@ -70,7 +70,7 @@ void main(){
     if (fType == 1){
         color = vec4(
         color.r, color.g, color.b, pow(fPos.x - fCenter.x, 2) + pow(fPos.y - fCenter.y, 2) < fRadius? 1 :
-        pow(fPos.x - fCenter.x, 2) + pow(fPos.y - fCenter.y, 2) < fRadius+0.001? 0.5 : 0
+        pow(fPos.x - fCenter.x, 2) + pow(fPos.y - fCenter.y, 2) < fRadius*1.01? 0.5 : 0
         );//this sucks but I cant make it not suck because im too stupid
         //color = vec4(0, 0, 0, 1.0);
     }

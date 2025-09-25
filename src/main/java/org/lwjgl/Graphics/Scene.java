@@ -9,6 +9,9 @@ import org.lwjgl.Graphics.Objects.AObject;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -39,12 +42,21 @@ public abstract class Scene {
     protected Shader shader;
 
 
-    public ArrayList<AObject> objects = new ArrayList<>();
+    public List<AObject> objects = new CopyOnWriteArrayList<>();
     protected float[] vertexArray;
     protected int[] indicesArray;
 
     protected Texture[] textures;
     protected int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+
+    protected Thread arrayFiller = new Thread(new Runnable() {
+        @Override
+        public void run(){
+            fillArrays();
+            uploadArrays();
+        }
+    });
+
 
     public void fillArrays(){
         int vertexLen = 0; int indiceLen = 0;

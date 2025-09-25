@@ -17,6 +17,7 @@ import org.lwjgl.Window;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Arrays;
+import java.util.SplittableRandom;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -54,6 +55,8 @@ public class TestScene extends Scene {
     public TestScene(){
 
     }
+
+
     int[] sigma;
     @Override
     public void init() {
@@ -70,8 +73,7 @@ public class TestScene extends Scene {
         //bindTexture(1, tx);
         //objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
         objects.add(tri); objects.add(tri2); objects.add(rect2); objects.add(rect);
-        fillArrays();
-        uploadArrays();
+        //arrayFiller.start();
 
 
 
@@ -80,11 +82,13 @@ public class TestScene extends Scene {
         //System.out.println(Window.getScene().camera().getViewMatrix());
     }
 
+
+    SplittableRandom rand = new SplittableRandom();
+
     @Override
-    public void update(float dt){
+    public void update(float dt) {
         bindTexture(0, tx);
-        fillArrays();
-        uploadArrays();
+        arrayFiller.run();
         //this.camera().position.add(new Vector2f(-0.0001f * dt, 0.0f * dt));
 
         shader.use();
@@ -95,14 +99,24 @@ public class TestScene extends Scene {
         glEnableVertexAttribArray(1);
 
 
-        if(Keyboard.isKeyPressed(GLFW_KEY_W)){
+        if (Keyboard.isKeyPressed(GLFW_KEY_W)) {
             camera.position.add(new Vector2f(0.0f, 0.01f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
+        }
+        if (Keyboard.isKeyPressed(GLFW_KEY_A)) {
             camera.position.add(new Vector2f(-0.01f, 0.0f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
+        }
+        if (Keyboard.isKeyPressed(GLFW_KEY_S)) {
             camera.position.add(new Vector2f(0.0f, -0.01f));
-        } if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
+        }
+        if (Keyboard.isKeyPressed(GLFW_KEY_D)) {
             camera.position.add(new Vector2f(0.01f, 0.0f));
+        } if (Keyboard.isKeyPressed(GLFW_KEY_SPACE)) {
+//            System.out.println("a");
+            for(int i=0; i<40; i++) {
+                objects.add(new Circle((float) rand.nextDouble() * 40 - 20, (float) rand.nextDouble() * 40 - 20, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
+            }
+        } if (Keyboard.isKeyPressed(GLFW_KEY_BACKSPACE)) {
+            objects.removeLast();
         }
 
 
