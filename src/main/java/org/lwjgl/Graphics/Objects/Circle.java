@@ -13,6 +13,7 @@ public class Circle extends AObject{
                 x3, y3, z3, r3, g3, b3, a3, t_x3+x3, t_y3+y3, t_type3, c_x, c_y, rad, 1,
                 x4, y4, z4, r4, g4, b4, a4, t_x4+x4, t_y4+y4, t_type4, c_x, c_y, rad, 1
         };
+        this.center = new float[]{c_x, c_y};
     }
 
     public Circle(float x, float y, float z, float rad, float r, float g, float b, float a, float t_x, float t_y, int t_type) {
@@ -48,6 +49,11 @@ public class Circle extends AObject{
     @Override
     public int getIndiceNum() {
         return 4;
+    }
+
+    @Override
+    public float[] getCenter(){
+        return this.center; //this is better than making a new array every time since it will not be being changed by any functions, but it does also mean that each circle has to keep an extra array. I think it's fine though in the grand scheme of things this is like a drop of water in a tsunami
     }
 }
 

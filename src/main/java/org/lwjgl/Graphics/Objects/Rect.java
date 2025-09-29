@@ -12,6 +12,10 @@ public class Rect extends AObject {
                 x3, y3, z3, r3, g3, b3, a3, t_x3+x3, t_y3+y3, t_type3, x3, y3, 0, 0,
                 x4, y4, z4, r4, g4, b4, a4, t_x4+x4, t_y4+y4, t_type4, x4, y4, 0, 0 //will have to be rendering a lot of circles to compensate for this chicanery
         };
+        this.center = new float[]{
+                (x1 + x2 + x3 + x4) / 4,
+                (y1 + y2 + y3 + y4) / 4
+        };
     }
 
     public Rect(float x, float y, float z, float w, float h, float r, float g, float b, float a, float t_x, float t_y, int t_type) {
@@ -47,5 +51,10 @@ public class Rect extends AObject {
     @Override
     public int getIndiceNum() {
         return 4;
+    }
+
+    @Override
+    public float[] getCenter(){
+        return this.center;
     }
 }

@@ -11,6 +11,10 @@ public class Triangle extends AObject {
                 x2, y2, z2, r2, g2, b2, a2, t_x2+x2, t_y2+y2, t_type2, x2, y2,  0, 0,
                 x3, y3, z3, r3, g3, b3, a3, t_x3+x3, t_y3+y3, t_type3, x3, y3, 0, 0 //triangle, so the center and type don't matter.
         };
+        this.center = new float[]{
+                (x1 + x2 + x3) / 4,
+                (y1 + y2 + y3) / 4
+        };
     }
 
     public Triangle(float c_x, float c_y, float c_z, float w, float h, float r, float g, float b, float a, float t_x, float t_y, int t_type){
@@ -47,5 +51,8 @@ public class Triangle extends AObject {
         return 3;
     }
 
-
+    @Override
+    public float[] getCenter(){
+        return this.center;
+    }
 }

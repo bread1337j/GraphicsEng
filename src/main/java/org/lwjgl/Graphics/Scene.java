@@ -4,11 +4,15 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.Consts;
 import org.lwjgl.Graphics.Assets.Shader;
 import org.lwjgl.Graphics.Assets.Texture;
+import org.lwjgl.Graphics.Groups.CullingChunk;
+import org.lwjgl.Graphics.Groups.ObjectGroup;
 import org.lwjgl.Graphics.Objects.AObject;
+import org.lwjgl.Util.Coordinate;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -42,7 +46,8 @@ public abstract class Scene {
     protected Shader shader;
 
 
-    public List<AObject> objects = new CopyOnWriteArrayList<>();
+    public ObjectGroup objects = new ObjectGroup();
+    public Coordinate center = new Coordinate(0, 0);
     protected float[] vertexArray;
     protected int[] indicesArray;
 
@@ -60,9 +65,18 @@ public abstract class Scene {
 
     public void fillArrays(){
         int vertexLen = 0; int indiceLen = 0;
-        for(int i=0; i<objects.size(); i++){
-            vertexLen+=objects.get(i).getVertexLen();
-            indiceLen+=objects.get(i).getIndiceLen();
+        if(this.camera!=null) {
+            this.center.cord[0] = camera.position.x;
+            this.center.cord[1] = camera.position.y;
+        }
+        CullingChunk[] ccarr = objects.getRect(center, 2, 2);
+        //System.out.println((Arrays.toString(ccarr)));
+
+        for(CullingChunk cc : ccarr){
+            for (AObject obj : cc.arr) {
+                vertexLen += obj.getVertexLen();
+                indiceLen += obj.getIndiceLen();
+            }
         }
         vertexArray = new float[vertexLen];
         indicesArray = new int[indiceLen];
@@ -70,11 +84,14 @@ public abstract class Scene {
         int elementPointer = 0;
         int indicePointer = 0;
         int[] output;
-        for(int i=0; i<objects.size(); i++){
-            output = objects.get(i).loadObj(vertexArray, indicesArray, vertexPointer, elementPointer, indicePointer);
-            vertexPointer=output[0];
-            elementPointer=output[1];
-            indicePointer=output[2];
+        for(CullingChunk cc : ccarr) {
+            for (AObject obj : cc.arr) {
+                output = obj.loadObj(vertexArray, indicesArray, vertexPointer, elementPointer, indicePointer);
+                vertexPointer = output[0];
+                elementPointer = output[1];
+                indicePointer = output[2];
+            }
+
         }
 
     }
