@@ -11,11 +11,7 @@ import org.lwjgl.Util.Coordinate;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Collections;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -69,7 +65,7 @@ public abstract class Scene {
             this.center.cord[0] = (int)(camera.position.x * 100);
             this.center.cord[1] = (int)(camera.position.y * 100);
         }
-        CullingChunk[] ccarr = objects.getRect(center, 2, 2);
+        CullingChunk[] ccarr = objects.getRect(center, 4, 4);
         //System.out.println((Arrays.toString(ccarr)));
         //System.out.println((objects.getChunk(new Coordinate(200, 100)).arr));
         for(CullingChunk cc : ccarr){
@@ -94,6 +90,7 @@ public abstract class Scene {
             }
 
         }
+        //System.out.println(Arrays.toString(indicesArray));
 
     }
 

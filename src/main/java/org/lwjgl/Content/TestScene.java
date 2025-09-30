@@ -56,7 +56,7 @@ public class TestScene extends Scene {
 
     }
 
-
+    int count = 0;
     int[] sigma;
     @Override
     public void init() {
@@ -72,9 +72,10 @@ public class TestScene extends Scene {
         bindTexture(1, tx2);
         //bindTexture(1, tx);
         //objects.add(tri); objects.add(tri2); objects.add(rect); objects.add(rect2);
-        objects.add(tri); objects.add(tri2); objects.add(rect2); objects.add(rect);
+        objects.add(tri); objects.add(tri2);
+        objects.add(rect2); objects.add(rect);
         //arrayFiller.start();
-
+        Window.titleStr = "" + count;
 
 
 
@@ -112,13 +113,14 @@ public class TestScene extends Scene {
             camera.position.add(new Vector2f(0.01f, 0.0f));
         } if (Keyboard.isKeyPressed(GLFW_KEY_SPACE)) {
 //            System.out.println("a");
-            for(int i=0; i<400; i++) {
-                objects.add(new Circle((float) rand.nextDouble() * 40 - 20, (float) rand.nextDouble() * 40 - 20, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
-            }
+            //for(int i=0; i<400; i++) {
+                objects.add(new Circle((float) rand.nextDouble() * 4 - 2, (float) rand.nextDouble() * 4 - 2, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
+            //}
+            count += 1;
             //objects.add(new Circle(2, 1, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
         }
 
-
+        Window.titleStr = "" + count;
         camera.adjustProjection();
 
 

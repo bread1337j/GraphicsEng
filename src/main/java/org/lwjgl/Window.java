@@ -134,6 +134,7 @@ public class Window { //italy final boss
     }
     long dt = 0;
     long dtSum;
+    public static String titleStr = "No set title";
     public void loop(){
         while(!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
@@ -165,10 +166,11 @@ public class Window { //italy final boss
             dtBuffer[dtPointer++] = dt;
             dtPointer %= dtBuffer.length;
             dtSum = 0;
-            for(int i=0; i<dtBuffer.length; i++){
+            for (int i = 0; i < dtBuffer.length; i++) {
                 dtSum += dtBuffer[i];
             }
-            setTitle(String.valueOf((1.0d / ((double)(dtSum / 64) / 1_000_000_000))+ "FPS"));
+            setTitle(titleStr + "   " + String.valueOf((1.0d / ((double) (dtSum / 64) / 1_000_000_000)) + "FPS"));
+
             glfwSwapBuffers(glfwWindow);
         }
     }

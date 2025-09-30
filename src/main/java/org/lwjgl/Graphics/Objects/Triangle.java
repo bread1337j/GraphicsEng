@@ -31,7 +31,7 @@ public class Triangle extends AObject {
             vertexArr[i] = vertices[i-pointer];
         }
         for(int i=eboPointer; i<eboPointer+indices.length; i++){
-            elementArr[i] = indices[i-eboPointer]+eboPointer;
+            elementArr[i] = indice + indices[i-eboPointer];
         }
         return new int[]{vertices.length + pointer, indices.length + eboPointer, indice + getIndiceNum()};
     }
