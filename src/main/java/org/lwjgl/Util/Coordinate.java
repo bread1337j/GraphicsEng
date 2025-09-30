@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Coordinate {
-    public float[] cord; //0=x 1=y
-    public Coordinate(float[] cord) {
+    public int[] cord; //0=x 1=y
+    public Coordinate(int[] cord) {
         this.cord = cord;
     }
-    public Coordinate(float x, float y){
-        this.cord = new float[] {x,y};
+    public Coordinate(int x, int y){
+        this.cord = new int[] {x,y};
     }
 
     @Override

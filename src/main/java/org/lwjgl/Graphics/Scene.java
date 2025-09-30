@@ -66,13 +66,14 @@ public abstract class Scene {
     public void fillArrays(){
         int vertexLen = 0; int indiceLen = 0;
         if(this.camera!=null) {
-            this.center.cord[0] = camera.position.x;
-            this.center.cord[1] = camera.position.y;
+            this.center.cord[0] = (int)(camera.position.x * 100);
+            this.center.cord[1] = (int)(camera.position.y * 100);
         }
         CullingChunk[] ccarr = objects.getRect(center, 2, 2);
         //System.out.println((Arrays.toString(ccarr)));
-
+        //System.out.println((objects.getChunk(new Coordinate(200, 100)).arr));
         for(CullingChunk cc : ccarr){
+            //System.out.println(cc.arr);
             for (AObject obj : cc.arr) {
                 vertexLen += obj.getVertexLen();
                 indiceLen += obj.getIndiceLen();

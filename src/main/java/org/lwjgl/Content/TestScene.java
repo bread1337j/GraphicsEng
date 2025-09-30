@@ -115,6 +115,7 @@ public class TestScene extends Scene {
             for(int i=0; i<400; i++) {
                 objects.add(new Circle((float) rand.nextDouble() * 40 - 20, (float) rand.nextDouble() * 40 - 20, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
             }
+            //objects.add(new Circle(2, 1, 0, 0.1f, (float) rand.nextDouble(), (float) rand.nextDouble(), (float) rand.nextDouble(), 0.0f, 0, 0, 1));
         }
 
 

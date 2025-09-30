@@ -13,9 +13,11 @@ public class ObjectGroup {
     public void add(AObject obj){
         float[] pos = obj.getCenter();
         Coordinate cord = new Coordinate(
-                ((float) Math.round(pos[0] * 10) / 10),
-                ((float) Math.round(pos[1] * 10) / 10)
+                (int)(pos[0] * 100),
+                (int)(pos[1] * 100)
         );
+        cord.cord[0] = (cord.cord[0] - cord.cord[0]%100);
+        cord.cord[1] = (cord.cord[1] - cord.cord[1]%100);
         if(map.containsKey(cord)){
             map.get(cord).addObj(obj);
             //System.out.println("Found CC " + map.get(cord) + " and put in object " + obj +", current list: " + map.get(cord).arr);
@@ -27,6 +29,7 @@ public class ObjectGroup {
     }
 
     public CullingChunk getChunk(Coordinate cord){
+
         if(!map.containsKey(cord)){
             map.put(cord, new CullingChunk(cord));
         }
@@ -35,9 +38,11 @@ public class ObjectGroup {
 
     public CullingChunk[] getRect(Coordinate center, int xw, int yw){
         CullingChunk[] cc = new CullingChunk[xw*yw];
+        center.cord[0] = (center.cord[0] - center.cord[0]%100);
+        center.cord[1] = (center.cord[1] - center.cord[1]%100);
         int p = 0;
-        for(float x=(center.cord[0]-0.05f*xw); x<center.cord[0]+0.05f*xw-0.01f; x+=0.1f){
-            for(float y=(center.cord[1]-0.05f*yw); y<center.cord[1]+0.05f*yw-0.01f; y+=0.1f){
+        for(int x=(center.cord[0]-50*xw); x<center.cord[0]+50*xw-0.01f; x+=100){
+            for(int y=(center.cord[1]-50*yw); y<center.cord[1]+50*yw-0.01f; y+=100){
                 //System.out.println("( " + x + " , " + y + " )");
                 cc[p++] = getChunk(new Coordinate(x, y));
             }

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class CullingChunk {
     public List<AObject> arr;
-    public float x;
-    public float y;
+    public int x;
+    public int y;
     public CullingChunk(int x, int y){
         this.x = x;
         this.y = y;
@@ -29,7 +29,8 @@ public class CullingChunk {
     public void addObj(AObject obj){
         arr.add(obj);
     }
-    public AObject inladdObj(AObject obj){ //addobj but for in-line magic
+
+    public AObject inladdObj(AObject obj){ //addobj but for in-line chicanery
         arr.add(obj);
         return obj;
     }
